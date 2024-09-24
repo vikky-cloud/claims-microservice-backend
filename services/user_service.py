@@ -1,5 +1,6 @@
-from dal.user_dal import UserDAL
+from werkzeug.security import generate_password_hash
 from werkzeug.security import generate_password_hash, check_password_hash
+from dal.user_dal import UserDAL
 
 class UserService:
     @staticmethod
@@ -9,13 +10,12 @@ class UserService:
             return {"success": False, "message": "Email already registered."}
 
         # If email is not registered, create the user
-        hashed_password = generate_password_hash(password)
-        user = UserDAL.create_user(email, hashed_password)
+        user = UserDAL.create_user(email, password)
         return {"success": True, "user": user}
 
     @staticmethod
-    def authenticate_user(email, password):
-        user = UserDAL.get_user_by_email(email)
-        if user and user.password == password:
-            return user
-        return None
+    def login_user(email, password):
+        user = UserDAL.get_user_by_email(email)  # Retrieve user from the database
+        if user and check_password_hash(user.password, password):  # Check password
+            return {"success": True, "user": user}
+        return {"success": False, "message": "Invalid credentials"}
