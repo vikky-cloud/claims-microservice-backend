@@ -3,3 +3,6 @@ python -m venv venv
 venv\Scripts\activate
 
 to run the application run: flask run
+
+to remove the pycache
+find . -name "__pycache__" -type d -exec rm -r {} +
