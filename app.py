@@ -2,9 +2,12 @@ from flask import Flask
 from models.user import db
 from api.user_api import user_api
 from config import Config
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+CORS(app)
 
 db.init_app(app)
 
