@@ -1,4 +1,4 @@
-from models.user import db
+from extensions import db
 from models.user import User
 
 class UserDAL:
